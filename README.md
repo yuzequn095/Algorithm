@@ -4,7 +4,7 @@
 ## VI Graph Algorithms
 
 ### 23. Minimum Spanning Trees
-#### [23.2 The algorithms of Kruskal and Prim](src/23.2%20The%20algorithms%20of%20Kruskal%20and%20Prim)
+#### [23.2 The algorithms of Kruskal and Prim](src/23.%20Minimum%20Spanning%20Trees/23.2%20The%20algorithms%20of%20Kruskal%20and%20Prim)
 - 261.Graph Valid Tree
 - 1135.Connecting Cities With Minimum Cost
 - 1584.Min Cost to Connect All Points
