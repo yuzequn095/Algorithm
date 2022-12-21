@@ -56,12 +56,84 @@ class UF {
 }
 ```
 
+Prim
+```
+class Prim {
+    // to store cut edge
+    private PriorityQueue<int[]> pq;
+    // visited node
+    private boolean[] inMST;
+    // minimum weight
+    private int weightSum = 0;
+    // graph[s] - adjacent edges
+    // int[]{from, to, weight}
+    private List<int[]>[] graph;
+
+    public Prim(List<int[]>[] graph) {
+        this.graph = graph;
+        this.pq = new PriorityQueue<>((a, b) -> {
+            return a[2] - b[2];
+        });
+        // n nodes in graph
+        int n = graph.length;
+        this.inMST = new boolean[n];
+
+        // start from 0 node
+        inMST[0] = true;
+        cut(0);
+        // continue cut off and add new edge
+        while (!pq.isEmpty()) {
+            int[] edge = pq.poll();
+            int to = edge[1];
+            int weight = edge[2];
+            if (inMST[to]) {
+                // if node visited
+                continue;
+            }
+            // append this edge
+            weightSum += weight;
+            inMST[to] = true;
+            // cut new node
+            cut(to);
+        }
+    }
+
+    // cut node s
+    private void cut(int s) {
+        // traverse the adjacent edges
+        for (int[] edge : graph[s]) {
+            int to = edge[1];
+            if (inMST[to]) {
+                // if node visited
+                continue;
+            }
+            // add this edge to pq
+            pq.offer(edge);
+        }
+    }
+
+    public int weightSum() {
+        return weightSum;
+    }
+
+    // check if conver all nodes
+    public boolean allConnected() {
+        for (int i = 0; i < inMST.length; i++) {
+            if (!inMST[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+```
+
 ## LeetCode
 Kruskal
-- 261.Graph Valid Tree
-- 1135.Connecting Cities With Minimum Cost
-- 1584.Min Cost to Connect All Points
-Prim
+- 261.Graph Valid Tree (Kruskal)
+- 1135.Connecting Cities With Minimum Cost (Kruskal \ Prim)
+- 1584.Min Cost to Connect All Points (Kruskal \ Prim)
 
 ### 261. Graph Valid Tree
 
@@ -219,7 +291,7 @@ We have known how to check and get a tree from graph using Union-Find. But how c
 
 One idea is to sort the edge and start with the least weight edge, actually greedy algorithm.
 
-#### Solution
+#### Kruskal Solution
 ```aidl
 /*
  * Author @ LBLD
@@ -304,6 +376,96 @@ class Solution {
 }
 ```
 
+#### Prim Solution
+```aidl
+/*
+ * Author @ LBLD
+ * 12-20-2022
+ */
+ 
+class Solution {
+    public int minimumCost(int n, int[][] connections) {
+
+        List<int[]>[] graph = buildGraph(n, connections);
+        Prim prim = new Prim(graph);
+
+        if (!prim.allConnected()) {
+            return -1;
+        }
+
+        return prim.weightSum();
+    }
+
+    List<int[]>[] buildGraph(int n, int[][] connections) {
+        List<int[]>[] graph = new LinkedList[n];
+        for (int i = 0; i < n; i++) {
+            graph[i] = new LinkedList<>();
+        }
+        for (int[] conn : connections) {
+            int u = conn[0] - 1;
+            int v = conn[1] - 1;
+            int weight = conn[2];
+            graph[u].add(new int[]{u, v, weight});
+            graph[v].add(new int[]{v, u, weight});
+        }
+        return graph;
+    }
+
+    class Prim {
+        private PriorityQueue<int[]> pq;
+        private boolean[] inMST;
+        private int weightSum = 0;
+        private List<int[]>[] graph;
+
+        public Prim(List<int[]>[] graph) {
+            this.graph = graph;
+            this.pq = new PriorityQueue<>((a, b) -> {
+                return a[2] - b[2];
+            });
+            int n = graph.length;
+            this.inMST = new boolean[n];
+
+            inMST[0] = true;
+            cut(0);
+            while (!pq.isEmpty()) {
+                int[] edge = pq.poll();
+                int to = edge[1];
+                int weight = edge[2];
+                if (inMST[to]) {
+                    continue;
+                }
+                weightSum += weight;
+                inMST[to] = true;
+                cut(to);
+            }
+        }
+
+        private void cut(int s) {
+            for (int[] edge : graph[s]) {
+                int to = edge[1];
+                if (inMST[to]) {
+                    continue;
+                }
+                pq.offer(edge);
+            }
+        }
+
+        public int weightSum() {
+            return weightSum;
+        }
+
+        public boolean allConnected() {
+            for (int i = 0; i < inMST.length; i++) {
+                if (!inMST[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+}
+```
+
 ### 1584. Min Cost to Connect All Points
 
 You are given an array points representing integer coordinates of some points on a 2D-plane, where `points[i] = [xi, yi]`.
@@ -347,7 +509,7 @@ Generate all edges cost for each node pair, and then use Kruskal algorithm.
 
 And we use the index rather than the coordinate (x, y), in this way we can use Union-Find algorithm in previous way.
 
-#### Solution
+#### Kruskal Solution
 ```aidl
 /*
  * Author @ LBLD
@@ -444,7 +606,93 @@ class Solution {
 }
 ```
 
-#### Complexity
+#### Prim Solution
+```aidl
+/*
+ * Author @ LBLD
+ * 12-20-2022
+ */
+
+class Solution {
+    public int minCostConnectPoints(int[][] points) {
+        int n = points.length;
+        List<int[]>[] graph = buildGraph(n, points);
+        return new Prim(graph).weightSum();
+    }
+
+    List<int[]>[] buildGraph(int n, int[][] points) {
+        List<int[]>[] graph = new LinkedList[n];
+        for (int i = 0; i < n; i++) {
+            graph[i] = new LinkedList<>();
+        }
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int xi = points[i][0], yi = points[i][1];
+                int xj = points[j][0], yj = points[j][1];
+                int weight = Math.abs(xi - xj) + Math.abs(yi - yj);
+                graph[i].add(new int[]{i, j, weight});
+                graph[j].add(new int[]{j, i, weight});
+            }
+        }
+        return graph;
+    }
+
+    class Prim {
+        private PriorityQueue<int[]> pq;
+        private boolean[] inMST;
+        private int weightSum = 0;
+        private List<int[]>[] graph;
+
+        public Prim(List<int[]>[] graph) {
+            this.graph = graph;
+            this.pq = new PriorityQueue<>((a, b) -> {
+                return a[2] - b[2];
+            });
+            int n = graph.length;
+            this.inMST = new boolean[n];
+
+            inMST[0] = true;
+            cut(0);
+            while (!pq.isEmpty()) {
+                int[] edge = pq.poll();
+                int to = edge[1];
+                int weight = edge[2];
+                if (inMST[to]) {
+                    continue;
+                }
+                weightSum += weight;
+                inMST[to] = true;
+                cut(to);
+            }
+        }
+
+        private void cut(int s) {
+            for (int[] edge : graph[s]) {
+                int to = edge[1];
+                if (inMST[to]) {
+                    continue;
+                }
+                pq.offer(edge);
+            }
+        }
+
+        public int weightSum() {
+            return weightSum;
+        }
+
+        public boolean allConnected() {
+            for (int i = 0; i < inMST.length; i++) {
+                if (!inMST[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+}
+```
+
+#### Kruskal Complexity
 Space Complexity: O(V + E)
 
 Because we need all of the edges E to sort, and Union-Find need all of the nodes V.
@@ -452,3 +700,8 @@ Because we need all of the edges E to sort, and Union-Find need all of the nodes
 Time Complexity: O(ElogE)
 
 Because sort will cost O(ElogE), for loop cost O(E).
+
+#### Prim Complexity
+Time Complexity: O(ElogE)
+
+Because we need to add E edges, so it is O(logE), and then we will go over all edges.
