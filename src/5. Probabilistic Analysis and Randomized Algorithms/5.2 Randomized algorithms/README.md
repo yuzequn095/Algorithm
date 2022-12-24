@@ -42,7 +42,14 @@ Constraints:
 - At most 2 * 105 calls will be made to insert, remove, and getRandom.
 - There will be at least one element in the data structure when getRandom is called.
 
-#### My Solution
+#### Solution
+
+Important HashSet method:
+```
+set(int index, E element)
+Replaces the element at the specified position in this list with the specified element.
+```
+
 ```aidl
 /*
  * Author @ Yu
