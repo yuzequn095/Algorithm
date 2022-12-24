@@ -1,5 +1,11 @@
 # Algorithm
 
+## I Foundation
+
+### 5. Probabilistic Analysis and Randomized Algorithms
+#### [5.3 Randomized algorithms](src/5.%20Probabilistic%20Analysis%20and%20Randomized%20Algorithms/5.2%20Randomized%20algorithms)
+- 380.Insert Delete GetRandom O(1)
+- 710.Random Pick with Blacklist
 
 ## VI Graph Algorithms
 
