@@ -4,6 +4,12 @@
 - 380.Insert Delete GetRandom O(1)
 - 710.Random Pick with Blacklist
 
+
+### Idea
+- When we want to get random element in a same possibility and O(1), consider array
+- When we want to keep valid elements together, we can swap the invalid element with the last element
+- HashMap is a good tool to help us keep track of the location of element
+
 ### 380. Insert Delete GetRandom O(1)
 
 Implement the RandomizedSet class:
@@ -121,3 +127,96 @@ class RandomizedSet {
  */
 ```
 ### 710. Random Pick with Blacklist
+
+You are given an integer n and an array of unique integers blacklist. Design an algorithm to pick a random integer in the range [0, n - 1] that is not in blacklist. Any integer that is in the mentioned range and not in blacklist should be equally likely to be returned.
+
+Optimize your algorithm such that it minimizes the number of calls to the built-in random function of your language.
+
+Implement the Solution class:
+
+Solution(int n, int[] blacklist) Initializes the object with the integer n and the blacklisted integers blacklist.
+int pick() Returns a random integer in the range [0, n - 1] and not in blacklist.
+ 
+
+Example 1:
+
+```
+Input
+["Solution", "pick", "pick", "pick", "pick", "pick", "pick", "pick"]
+[[7, [2, 3, 5]], [], [], [], [], [], [], []]
+Output
+[null, 0, 4, 1, 6, 1, 0, 4]
+
+Explanation
+Solution solution = new Solution(7, [2, 3, 5]);
+solution.pick(); // return 0, any integer from [0,1,4,6] should be ok. Note that for every call of pick,
+                 // 0, 1, 4, and 6 must be equally likely to be returned (i.e., with probability 1/4).
+solution.pick(); // return 4
+solution.pick(); // return 1
+solution.pick(); // return 6
+solution.pick(); // return 1
+solution.pick(); // return 0
+solution.pick(); // return 4
+``` 
+
+Constraints:
+
+- 1 <= n <= 109
+- 0 <= blacklist.length <= min(105, n - 1)
+- 0 <= blacklist[i] < n
+- All the values of blacklist are unique.
+- At most 2 * 104 calls will be made to pick.
+
+#### Solution
+```
+/*
+ * Author @ Me
+ * 12-25-2022
+ */
+
+class Solution {
+
+    private Map<Integer, Integer> map;
+    private int validSize;
+
+    public Solution(int n, int[] blacklist) {
+        map = new HashMap<>();
+
+        // get the valid size (not in the black list)
+        validSize = n - blacklist.length;
+        for(int num : blacklist){
+            map.put(num, -1); // use -1 to indicate this num is in blacklist
+        }
+
+        // go over the blacklist
+        int last = n - 1;
+        for(int num : blacklist){
+            // if num has been invalid range
+            if(num >= validSize){ // because num starts from 0 so we use equal here
+                continue;
+            }
+
+            // swap the current num with the valid num in last
+            while(map.containsKey(last)){ // if map contains last, means last is invalid
+                last--;
+            }
+
+            // swap
+            map.put(num, last);
+            last--;
+        }
+    }
+    
+    public int pick() {
+        Random rand = new Random();
+        int res = rand.nextInt(validSize);
+
+        // if the res is in the blacklist
+        if(map.containsKey(res)){
+            return map.get(res);
+        }
+
+        return res;
+    }
+}
+```
