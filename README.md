@@ -7,6 +7,13 @@
 - 380.Insert Delete GetRandom O(1)
 - 710.Random Pick with Blacklist
 
+## III Data Structures
+
+### 10. Elementary Data Structures
+#### [10.1 Stacks and queues](src/10.%20Elementary%20Data%20Structures/10.1%20Stacks%20and%20queues)
+- 316.Remove Duplicate Letters
+- 1081.Smallest Subsequence of Distinct Characters
+
 ## VI Graph Algorithms
 
 ### 23. Minimum Spanning Trees
