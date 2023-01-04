@@ -14,6 +14,13 @@
 - 316.Remove Duplicate Letters
 - 1081.Smallest Subsequence of Distinct Characters
 
+### 12. Binary Search Trees
+#### [12.4 Randomly built binary search trees](src/12.%20Binary%20Search%20Trees/12.4%20Randomly%20built%20binary%20search%20tress)
+- 105.Construct Binary Tree from Preorder and Inorder Traversal
+- 106.Construct Binary Tree from Inorder and Postorder Traversal
+- 654.Maximum Binary Tree
+- 899.Construct Binary Tree from Preorder and Postorder Traversal
+
 ## VI Graph Algorithms
 
 ### 23. Minimum Spanning Trees
