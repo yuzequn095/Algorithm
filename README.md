@@ -16,6 +16,11 @@
 
 ### 12. Binary Search Trees
 
+#### [12.1 What is a binary search tree](src/12.%20Binary%20Search%20Trees/12.1%20What%20is%20a%20binary%20search%20Tree)
+- 230.Kth Smallest Element in a BST
+- 538.Convert BST to Greater Tree
+- 1038.Binary Search Tree to Greater Sum Tree
+
 #### [12.2 Querying a Binary Search Tree](src/12.%20Binary%20Search%20Trees/12.2%20Querying%20a%20binary%20search%20tree)
 - 297.Serialize and Deserialize Binary Tree
 
