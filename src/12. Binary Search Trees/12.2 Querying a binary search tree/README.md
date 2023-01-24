@@ -5,6 +5,7 @@
 Serialization
 
 - 297.Serialize and Deserialize Binary Tree
+- 700.Search in a Binary Search Tree
 
 #### 297. Serialize and Deserialize Binary Tree
 
@@ -261,3 +262,79 @@ public class Codec {
 // TreeNode ans = deser.deserialize(ser.serialize(root));
 ```
 
+#### 700. Search in a Binary Search Tree
+
+You are given the root of a binary search tree (BST) and an integer val.
+
+Find the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
+
+ 
+Example 1:
+
+<img src="../../static/700-1.jpg>
+
+```
+Input: root = [4,2,7,1,3], val = 2
+Output: [2,1,3]
+```
+
+Example 2:
+
+<img src="../../static/700-2.jpg">
+
+```
+Input: root = [4,2,7,1,3], val = 5
+Output: []
+``` 
+
+Constraints:
+
+- The number of nodes in the tree is in the range [1, 5000].
+- 1 <= Node.val <= 107
+- root is a binary search tree.
+- 1 <= val <= 107
+
+Solution
+
+```
+/*
+ * 1/24/2023
+ */
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    TreeNode searchBST(TreeNode root, int target) {
+
+        if (root == null) {
+            return null;
+        }
+
+        // serach left sub-tree
+        if (root.val > target) {
+            return searchBST(root.left, target);
+        }
+
+        // search right sub-tree
+        if (root.val < target) {
+            return searchBST(root.right, target);
+        }
+        return root;
+    }
+
+}
+
+```

@@ -17,12 +17,18 @@
 ### 12. Binary Search Trees
 
 #### [12.1 What is a binary search tree](src/12.%20Binary%20Search%20Trees/12.1%20What%20is%20a%20binary%20search%20Tree)
+- 98.Validate Binary Search Tree
 - 230.Kth Smallest Element in a BST
 - 538.Convert BST to Greater Tree
 - 1038.Binary Search Tree to Greater Sum Tree
 
 #### [12.2 Querying a Binary Search Tree](src/12.%20Binary%20Search%20Trees/12.2%20Querying%20a%20binary%20search%20tree)
 - 297.Serialize and Deserialize Binary Tree
+- 700.Search in a Binary Search Tree
+
+#### [12.3 Insertion and deletion](src/12.%20Binary%20Search%20Trees/12.3%20Insertion%20and%20deletion)
+- 450.Delete Node in a BST
+- 701.Insert into a Binary Search Tree
 
 #### [12.4 Randomly built binary search trees](src/12.%20Binary%20Search%20Trees/12.4%20Randomly%20built%20binary%20search%20tress)
 - 105.Construct Binary Tree from Preorder and Inorder Traversal
