@@ -20,7 +20,7 @@ The left
 
 Example 1:
 
-<img src="../../static/98-1.jpg">
+<img src="../../../static/98-1.jpg">
 
 ```
 Input: root = [2,1,3]
@@ -29,7 +29,7 @@ Output: true
 
 Example 2:
 
-<img src="../../static/98-2.jpg">
+<img src="../../../static/98-2.jpg">
 
 ```
 Input: root = [5,1,4,null,null,3,6]

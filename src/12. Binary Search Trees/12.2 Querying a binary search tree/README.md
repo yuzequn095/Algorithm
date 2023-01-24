@@ -271,7 +271,7 @@ Find the node in the BST that the node's value equals val and return the subtree
  
 Example 1:
 
-<img src="../../static/700-1.jpg>
+<img src="../../../static/700-1.jpg>
 
 ```
 Input: root = [4,2,7,1,3], val = 2

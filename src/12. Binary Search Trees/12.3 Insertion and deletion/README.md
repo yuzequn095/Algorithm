@@ -15,7 +15,7 @@ If the node is found, delete the node.
  
 
 Example 1:
-<img src="../../static/450-1.jpg">
+<img src="../../../static/450-1.jpg">  
 ```
 Input: root = [5,3,6,2,4,null,7], key = 3
 Output: [5,4,6,2,null,null,7]
@@ -23,7 +23,7 @@ Explanation: Given key to delete is 3. So we find the node with value 3 and dele
 One valid answer is [5,4,6,2,null,null,7], shown in the above BST.
 Please notice that another valid answer is [5,2,6,null,4,null,7] and it's also accepted.
 ```
-<img src="../../static/450-2.jpg">
+<img src="../../../static/450-2.jpg">
 
 Example 2:
 
