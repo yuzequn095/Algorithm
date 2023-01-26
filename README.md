@@ -31,6 +31,8 @@
 - 701.Insert into a Binary Search Tree
 
 #### [12.4 Randomly built binary search trees](src/12.%20Binary%20Search%20Trees/12.4%20Randomly%20built%20binary%20search%20tress)
+- 95.Unique Binary Search Trees II
+- 96.Unique Binary Search Trees
 - 105.Construct Binary Tree from Preorder and Inorder Traversal
 - 106.Construct Binary Tree from Inorder and Postorder Traversal
 - 654.Maximum Binary Tree

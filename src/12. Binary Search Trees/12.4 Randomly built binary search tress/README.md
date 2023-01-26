@@ -1,10 +1,190 @@
 # Randomly Built Binary Search Trees
 
 ## LeetCode
+- 95.Unique Binary Search Trees II
+- 96.Unique Binary Search Trees
 - 105.Construct Binary Tree from Preorder and Inorder Traversal
 - 106.Construct Binary Tree from Inorder and Postorder Traversal
 - 654.Maximum Binary Tree
 - 899.Construct Binary Tree from Preorder and Postorder Traversal
+
+### 95. Unique Binary Search Trees II
+Given an integer n, return all the structurally unique BST's (binary search trees), which has exactly n nodes of unique values from 1 to n. Return the answer in any order.
+
+
+Example 1:
+
+<img src="../../../static/95-1.jpg">
+
+```
+Input: n = 3
+Output: [[1,null,2,null,3],[1,null,3,2],[2,1,3],[3,1,null,null,2],[3,2,null,1]]
+```
+
+Example 2:
+```
+Input: n = 1
+Output: [[1]]
+``` 
+
+Constraints:
+
+- 1 <= n <= 8
+
+#### Solution
+```
+/*
+ * 1/26/2023
+ */
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public List<TreeNode> generateTrees(int n) {
+        if (n == 0) return new LinkedList<>();
+
+        return build(1, n);
+    }
+
+    List<TreeNode> build(int lo, int hi) {
+        List<TreeNode> res = new LinkedList<>();
+
+        // base case
+        if (lo > hi) {
+            res.add(null);
+            return res;
+        }
+
+        // root 
+        for (int i = lo; i <= hi; i++) {
+            List<TreeNode> leftTree = build(lo, i - 1);
+            List<TreeNode> rightTree = build(i + 1, hi);
+            
+            for (TreeNode left : leftTree) {
+                for (TreeNode right : rightTree) {
+                    TreeNode root = new TreeNode(i);
+                    root.left = left;
+                    root.right = right;
+                    res.add(root);
+                }
+            }
+        }
+
+        return res;
+    }
+}
+```
+
+### 96. Unique Binary Search Trees
+
+Given an integer n, return the number of structurally unique BST's (binary search trees) which has exactly n nodes of unique values from 1 to n.
+
+ 
+Example 1:
+
+<img src="../../../static/96-1.jpg">
+
+```
+Input: n = 3
+Output: 5
+```
+
+
+Example 2:
+
+```
+Input: n = 1
+Output: 1
+``` 
+
+Constraints:
+
+- 1 <= n <= 19
+
+
+#### Solution - Two Dimension Array
+```
+/*
+ * 1/26/2023
+*/
+class Solution {
+    int[][] memo;
+
+    int numTrees(int n) {
+        memo = new int[n + 1][n + 1];
+        return count(1, n);
+    }
+
+    int count(int lo, int hi) {
+        if (lo > hi) return 1;
+
+        // if we calcualted, use it
+        if (memo[lo][hi] != 0) {
+            return memo[lo][hi];
+        }
+
+        int res = 0;
+        for (int mid = lo; mid <= hi; mid++) {
+            int left = count(lo, mid - 1);
+            int right = count(mid + 1, hi);
+            res += left * right;
+        }
+        
+        memo[lo][hi] = res;
+
+        return res;
+    }
+}
+
+```
+
+#### Solution - One Dimension Array
+```
+/*
+ * 1/26/2023
+ */
+class Solution {
+    int[] memo;
+
+    int numTrees(int n) {
+        memo = new int[n + 1];
+        return count(1, n);
+    }
+
+    int count(int lo, int hi) {
+        if (lo > hi) return 1;
+
+        // if we calcualted, use it
+        if (memo[hi - lo + 1] != 0) {
+            return memo[hi - lo + 1];
+        }
+
+        int res = 0;
+        for (int mid = lo; mid <= hi; mid++) {
+            int left = count(lo, mid - 1);
+            int right = count(mid + 1, hi);
+            res += left * right;
+        }
+
+        memo[hi - lo + 1] = res;
+
+        return res;
+    }
+}
+```
 
 ### 105. Construct Binary Tree from Preorder and Inorder Traversal
 
