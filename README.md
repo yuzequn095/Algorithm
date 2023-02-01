@@ -23,8 +23,15 @@
 - 1038.Binary Search Tree to Greater Sum Tree
 
 #### [12.2 Querying a Binary Search Tree](src/12.%20Binary%20Search%20Trees/12.2%20Querying%20a%20binary%20search%20tree)
+Serialization
+
 - 297.Serialize and Deserialize Binary Tree
 - 700.Search in a Binary Search Tree
+
+Lowest Common Ancestor
+
+- 236.Lowest Common Ancestor of a Binary Tree
+
 
 #### [12.3 Insertion and deletion](src/12.%20Binary%20Search%20Trees/12.3%20Insertion%20and%20deletion)
 - 450.Delete Node in a BST

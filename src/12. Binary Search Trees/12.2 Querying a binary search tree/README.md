@@ -7,6 +7,12 @@ Serialization
 - 297.Serialize and Deserialize Binary Tree
 - 700.Search in a Binary Search Tree
 
+Lowest Common Ancestor
+
+- 236.Lowest Common Ancestor of a Binary Tree
+
+### Serialization
+
 #### 297. Serialize and Deserialize Binary Tree
 
 Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
@@ -19,7 +25,7 @@ Clarification: The input/output format is the same as how LeetCode serializes a 
 
 Example 1:
 
-<img src="../../static/../../static/297-1.jpg">
+<img src="../../../static/297-1.jpg">
 
 ```
 Input: root = [1,2,3,null,null,4,5]
@@ -280,7 +286,7 @@ Output: [2,1,3]
 
 Example 2:
 
-<img src="../../static/700-2.jpg">
+<img src="../../../static/700-2.jpg">
 
 ```
 Input: root = [4,2,7,1,3], val = 5
@@ -337,4 +343,90 @@ class Solution {
 
 }
 
+```
+
+### Lowest Common Ancestor
+
+#### 236. Lowest Common Ancestor of a Binary Tree
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+ 
+
+Example 1:
+
+<img src="../../../static/236-1.png">
+
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+Output: 3
+Explanation: The LCA of nodes 5 and 1 is 3.
+```
+
+Example 2:
+
+<img src="../../../static/236-2.png">
+
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+Output: 5
+Explanation: The LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
+```
+
+Example 3:
+
+```
+Input: root = [1,2], p = 1, q = 2
+Output: 1
+``` 
+
+Constraints:
+
+- The number of nodes in the tree is in the range [2, 105].
+- -109 <= Node.val <= 109
+- All Node.val are unique.
+- p != q
+- p and q will exist in the tree.
+
+```
+/*
+ * 1/31/2023
+ */
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        return find(root, p.val, q.val);
+    }
+
+    TreeNode find(TreeNode root, int val1, int val2) {
+        if (root == null) {
+            return null;
+        }
+
+        // pre-order traverse
+        if (root.val == val1 || root.val == val2) {
+            return root;
+        }
+
+        TreeNode left = find(root.left, val1, val2);
+        TreeNode right = find(root.right, val1, val2);
+
+        // both left and right has one of the target
+        if (left != null && right != null) {
+            return root;
+        }
+
+        return left != null ? left : right;
+    }
+}
 ```
