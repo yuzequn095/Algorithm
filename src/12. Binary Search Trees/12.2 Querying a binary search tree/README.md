@@ -9,7 +9,11 @@ Serialization
 
 Lowest Common Ancestor
 
+- 235.Lowest Common Ancestor of a Binary Search Tree
 - 236.Lowest Common Ancestor of a Binary Tree
+- 1644.Lowest Common Ancestor of a Binary Tree II
+- 1650.Lowest Common Ancestor of a Binary Tree III
+- 1676.Lowest Common Ancestor of a Binary Tree IV
 
 ### Serialization
 
@@ -347,7 +351,96 @@ class Solution {
 
 ### Lowest Common Ancestor
 
+#### 235. Lowest Common Ancestor of a Binary Search Tree
+Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+ 
+
+Example 1:
+
+<img src="../../../static/235-1.png">
+
+```
+Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+Output: 6
+Explanation: The LCA of nodes 2 and 8 is 6.
+```
+
+Example 2:
+
+<img src="../../../static/235-2.png">
+
+```
+Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
+Output: 2
+Explanation: The LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
+```
+
+Example 3:
+
+```
+Input: root = [2,1], p = 2, q = 1
+Output: 2
+``` 
+
+Constraints:
+
+- The number of nodes in the tree is in the range [2, 105].
+- -109 <= Node.val <= 109
+- All Node.val are unique.
+- p != q
+- p and q will exist in the BST.
+
+```
+/*
+ * 1/31/2023
+ */
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+
+class Solution {
+    TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        // set val1 as smaller one, and set val2 as bigger one
+        int val1 = Math.min(p.val, q.val);
+        int val2 = Math.max(p.val, q.val);
+        return find(root, val1, val2);
+    }
+
+    // make use of BST property
+    TreeNode find(TreeNode root, int val1, int val2) {
+
+        // base case
+        if (root == null) {
+            return null;
+        }
+
+        // go to left child
+        if (root.val > val2) {
+            return find(root.left, val1, val2);
+        }
+
+        // go to right child
+        if (root.val < val1) {
+            return find(root.right, val1, val2);
+        }
+        
+        return root;
+    }
+}
+```
+
 #### 236. Lowest Common Ancestor of a Binary Tree
+
 Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
 
 According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
@@ -430,3 +523,295 @@ class Solution {
     }
 }
 ```
+
+#### 1644. Lowest Common Ancestor of a Binary Tree II
+
+Given the root of a binary tree, return the lowest common ancestor (LCA) of two given nodes, p and q. If either node p or q does not exist in the tree, return null. All values of the nodes in the tree are unique.
+
+According to the definition of LCA on Wikipedia: "The lowest common ancestor of two nodes p and q in a binary tree T is the lowest node that has both p and q as descendants (where we allow a node to be a descendant of itself)". A descendant of a node x is a node y that is on the path from node x to some leaf node.
+
+ 
+
+Example 1:
+
+<img src="../../../static/1644-1.png">
+
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+Output: 3
+Explanation: The LCA of nodes 5 and 1 is 3.
+```
+
+Example 2:
+
+<img src="../../../static/1644-2.png">
+
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+Output: 5
+Explanation: The LCA of nodes 5 and 4 is 5. A node can be a descendant of itself according to the definition of LCA.
+```
+
+Example 3:
+
+<img src="../../../static/1644-3.png">
+
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 10
+Output: null
+Explanation: Node 10 does not exist in the tree, so return null.
+``` 
+
+Constraints:
+
+- The number of nodes in the tree is in the range [1, 104].
+- -109 <= Node.val <= 109
+- All Node.val are unique.
+- p != q
+
+```
+/*
+ * 1/31/2023
+ */
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+
+    private boolean foundP = false, foundQ = false;
+
+    TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+
+        TreeNode res = find(root, p.val, q.val);
+
+        if (!foundP || !foundQ) {
+            return null;
+        }
+        
+        return res;
+    }
+
+    TreeNode find(TreeNode root, int val1, int val2) {
+        if (root == null) {
+            return null;
+        }
+
+        TreeNode left = find(root.left, val1, val2);
+        TreeNode right = find(root.right, val1, val2);
+
+        // post-order
+        if (left != null && right != null) {
+            return root;
+        }
+
+        // if any one found
+        if (root.val == val1 || root.val == val2) {
+            if (root.val == val1) foundP = true;
+            if (root.val == val2) foundQ = true;
+            return root;
+        }
+
+        // if found -> value, if not -> null
+        return left != null ? left : right;
+    }
+}
+```
+
+#### 1650. Lowest Common Ancestor of a Binary Tree III
+
+Given two nodes of a binary tree p and q, return their lowest common ancestor (LCA).
+
+Each node will have a reference to its parent node. The definition for Node is below:
+```
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node parent;
+}
+```
+
+According to the definition of LCA on Wikipedia: "The lowest common ancestor of two nodes p and q in a tree T is the lowest node that has both p and q as descendants (where we allow a node to be a descendant of itself)."
+
+ 
+
+Example 1:
+
+<img src="../../../static/1650-1.png">
+
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+Output: 3
+Explanation: The LCA of nodes 5 and 1 is 3.
+```
+
+Example 2:
+
+<img src="../../../static/1650-2.png">
+
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+Output: 5
+Explanation: The LCA of nodes 5 and 4 is 5 since a node can be a descendant of itself according to the LCA definition.
+```
+
+Example 3:
+
+```
+Input: root = [1,2], p = 1, q = 2
+Output: 1
+``` 
+
+Constraints:
+
+- The number of nodes in the tree is in the range [2, 105].
+- -109 <= Node.val <= 109
+- All Node.val are unique.
+- p != q
+- p and q exist in the tree.
+
+Idea:
+<img src="../../../static/1650-idea.png">
+
+```
+/*
+ * 1/31/2023
+ */
+
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node parent;
+};
+*/
+
+class Solution {
+
+    // idea, two nodes should meet at the LCA if they move the same distance
+    public Node lowestCommonAncestor(Node p, Node q) {
+
+        Node a = p, b = q;
+
+        while (a != b) {
+            // move a
+            if (a == null) {
+                a = q;
+            }
+            else {
+                a = a.parent;
+            };
+
+            // move b
+            if (b == null) {
+                b = p;
+            }
+            else {
+                b = b.parent;
+            };
+        }
+        return a;
+    }
+}
+```
+
+#### 1676. Lowest Common Ancestor of a Binary Tree IV
+
+Given the root of a binary tree and an array of TreeNode objects nodes, return the lowest common ancestor (LCA) of all the nodes in nodes. All the nodes will exist in the tree, and all values of the tree's nodes are unique.
+
+Extending the definition of LCA on Wikipedia: "The lowest common ancestor of n nodes p1, p2, ..., pn in a binary tree T is the lowest node that has every pi as a descendant (where we allow a node to be a descendant of itself) for every valid i". A descendant of a node x is a node y that is on the path from node x to some leaf node.
+
+ 
+Example 1:
+
+<img src="../../../static/1676-1.png">
+
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], nodes = [4,7]
+Output: 2
+Explanation: The lowest common ancestor of nodes 4 and 7 is node 2.
+```
+
+Example 2:
+
+<img src="../../../static/1676-2.png">
+
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], nodes = [1]
+Output: 1
+Explanation: The lowest common ancestor of a single node is the node itself.
+```
+
+Example 3:
+
+<img src="../../../static/1676-3.png">
+
+```
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], nodes = [7,6,2,4]
+Output: 5
+Explanation: The lowest common ancestor of the nodes 7, 6, 2, and 4 is node 5.
+``` 
+
+Constraints:
+
+- The number of nodes in the tree is in the range [1, 104].
+- -109 <= Node.val <= 109
+- All Node.val are unique.
+- All nodes[i] will exist in the tree.
+- All nodes[i] are distinct.
+
+```
+/*
+ * 1/31/2023
+ */
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    TreeNode lowestCommonAncestor(TreeNode root, TreeNode[] nodes) {
+        // store nodes in HashSet
+        HashSet<Integer> values = new HashSet<>();
+        for (TreeNode node : nodes) {
+            values.add(node.val);
+        }
+
+        return find(root, values);
+    }
+
+    TreeNode find(TreeNode root, HashSet<Integer> values) {
+        if (root == null) {
+            return null;
+        }
+        // preorder traverse
+        if (values.contains(root.val)){
+            return root;
+        }
+
+        TreeNode left = find(root.left, values);
+        TreeNode right = find(root.right, values);
+        // if both child valid, then the current is the answer
+        if (left != null && right != null) {
+            return root;
+        }
+
+        return left != null ? left : right;
+    }
+}
+```
+
