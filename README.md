@@ -18,6 +18,7 @@
 
 #### [12.1 What is a binary search tree](src/12.%20Binary%20Search%20Trees/12.1%20What%20is%20a%20binary%20search%20Tree)
 - 98.Validate Binary Search Tree
+- 222.Count Complete Tree Nodes
 - 230.Kth Smallest Element in a BST
 - 538.Convert BST to Greater Tree
 - 1038.Binary Search Tree to Greater Sum Tree
