@@ -15,6 +15,8 @@
 
 ### 10. Elementary Data Structures
 #### [10.1 Stacks and queues](src/10.%20Elementary%20Data%20Structures/10.1%20Stacks%20and%20queues)
+- 225.Implement Stack using Queues
+- 232.Implement Queue using Stacks
 - 316.Remove Duplicate Letters
 - 1081.Smallest Subsequence of Distinct Characters
 
