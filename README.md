@@ -11,6 +11,9 @@
 #### [6.1 Heaps](src/6.%20Heapsort/6.1%20Heaps/README.md)
 - 295.Find Median from Data Stream
 
+#### [6.5 Priority Queue](src/6.%20Heapsort/6.5%20Priority%20Queue/README.md)
+- 355.Design Twitter
+
 ## III Data Structures
 
 ### 10. Elementary Data Structures
