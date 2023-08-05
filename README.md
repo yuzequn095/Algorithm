@@ -73,6 +73,10 @@ Trie
 - 322.Coin Change
 - 509.Fibonacci sequence
 
+#### [15.4 Longest common sequences](src/15.%20Dynamic%20Programming/15.4%20Longest%20common%20sequences/)
+- 300.Longest Increasing Subsequence
+- 354.Russian Doll Envelopes
+
 ## VI Graph Algorithms
 
 ### 22. Elementary Graph Algorithm
