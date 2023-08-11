@@ -3,6 +3,7 @@
 ## Leetcode problems
 - 322.Coin Change
 - 509.Fibonacci sequence
+- 931.Minimum Falling Path Sum
 
 ### 322.Coin Change
 You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
@@ -160,4 +161,92 @@ class Solution {
         return dp_i_1;
     }
 }
+```
+
+### 931. Minimum Falling Path Sum
+Given an n x n array of integers matrix, return the minimum sum of any falling path through matrix.
+
+A falling path starts at any element in the first row and chooses the element in the next row that is either directly below or diagonally left/right. Specifically, the next element from position (row, col) will be (row + 1, col - 1), (row + 1, col), or (row + 1, col + 1).
+
+ 
+
+Example 1:
+
+<img src="../../../static/931-1.jpg">
+<img src="../../../static/931-2.jpg">
+<img src="../../../static/931-3.jpg">
+
+``````
+Input: matrix = [[2,1,3],[6,5,4],[7,8,9]]
+Output: 13
+Explanation: There are two falling paths with a minimum sum as shown.
+``````
+
+Example 2:
+<img src="../../../static/931-4.jpg">
+<img src="../../../static/931-5.jpg">
+
+``````
+Input: matrix = [[-19,57],[-40,-5]]
+Output: -59
+Explanation: The falling path with a minimum sum is shown.
+`````` 
+
+Constraints:
+
+- n == matrix.length == matrix[i].length
+- 1 <= n <= 100
+- -100 <= matrix[i][j] <= 100
+
+
+#### Solution
+```
+class Solution {
+    int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+        int res = Integer.MAX_VALUE;
+
+        memo = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            Arrays.fill(memo[i], 66666);
+        }
+        
+        for (int j = 0; j < n; j++) {
+            res = Math.min(res, dp(matrix, n - 1, j));
+        }
+        return res;
+    }
+
+    int[][] memo;
+
+    int dp(int[][] matrix, int i, int j) {
+
+        if (i < 0 || j < 0 ||
+            i >= matrix.length ||
+            j >= matrix[0].length) {
+            
+            return 99999;
+        }
+
+        if (i == 0) {
+            return matrix[0][j];
+        }
+        
+        if (memo[i][j] != 66666) {
+            return memo[i][j];
+        }
+        
+        memo[i][j] = matrix[i][j] + min(
+                dp(matrix, i - 1, j), 
+                dp(matrix, i - 1, j - 1),
+                dp(matrix, i - 1, j + 1)
+            );
+        return memo[i][j];
+    }
+
+    int min(int a, int b, int c) {
+        return Math.min(a, Math.min(b, c));
+    }
+}
+
 ```

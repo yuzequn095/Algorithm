@@ -72,6 +72,7 @@ Trie
 #### [15.3 Elements of dynamic programming](src/15.%20Dynamic%20Programming/15.3%20Elements%20of%20dynamic%20programming/)
 - 322.Coin Change
 - 509.Fibonacci sequence
+- 931.Minimum Falling Path Sum
 
 #### [15.4 Longest common sequences](src/15.%20Dynamic%20Programming/15.4%20Longest%20common%20sequences/)
 - 300.Longest Increasing Subsequence
