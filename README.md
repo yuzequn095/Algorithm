@@ -75,6 +75,7 @@ Trie
 - 931.Minimum Falling Path Sum
 
 #### [15.4 Longest common sequences](src/15.%20Dynamic%20Programming/15.4%20Longest%20common%20sequences/)
+- 115.Distinct Subsequences
 - 300.Longest Increasing Subsequence
 - 354.Russian Doll Envelopes
 

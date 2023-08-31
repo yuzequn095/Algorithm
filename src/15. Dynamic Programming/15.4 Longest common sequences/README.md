@@ -1,8 +1,133 @@
 # Longest common sequences
 
 ## LeetCode
+- 115.Distinct Subsequences
 - 300.Longest Increasing Subsequence
 - 354.Russian Doll Envelopes
+
+### 115. Distinct Subsequences
+Given two strings s and t, return the number of distinct 
+subsequences
+ of s which equals t.
+
+The test cases are generated so that the answer fits on a 32-bit signed integer.
+
+ 
+
+Example 1:
+```
+Input: s = "rabbbit", t = "rabbit"
+Output: 3
+Explanation:
+As shown below, there are 3 ways you can generate "rabbit" from s.
+rabbbit
+rabbbit
+rabbbit
+```
+
+Example 2:
+```
+Input: s = "babgbag", t = "bag"
+Output: 5
+Explanation:
+As shown below, there are 5 ways you can generate "bag" from s.
+babgbag
+babgbag
+babgbag
+babgbag
+babgbag
+```
+
+Constraints:
+
+- 1 <= s.length, t.length <= 1000
+- s and t consist of English letters.
+
+#### Solution 1
+```
+class Solution {
+    int[][] memo;
+    
+    int numDistinct(String s, String t) {
+        // set default as -1
+        memo = new int[s.length()][t.length()];
+        for (int[] row : memo) {
+            Arrays.fill(row, -1);
+        }
+
+        return dp(s, 0, t, 0);
+    }
+    
+    // dp(s, i, t, j) = SUM( dp(s, k + 1, t, j + 1) where k >= i and s[k] == t[j] )
+    int dp(String s, int i, String t, int j) {
+
+        // base case 1, reach the end of t
+        if (j == t.length()) {
+            return 1;
+        }
+        // base case 2, it is impossible to match t 
+        if (s.length() - i < t.length() - j) {
+            return 0;
+        }
+        // check if memo calcualted before
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        int res = 0;
+
+        // try s substring starting from k 
+        for (int k = i; k < s.length(); k++) {
+            if (s.charAt(k) == t.charAt(j)) {
+                // if find the same char then try the number for the following 
+                res += dp(s, k + 1, t, j + 1);
+            }
+        }
+        
+        memo[i][j] = res;
+        return res;
+    }
+}
+```
+
+#### Solution 2
+```
+class Solution {
+    int[][] memo;
+    
+    int numDistinct(String s, String t) {
+        memo = new int[s.length()][t.length()];
+        for (int[] row : memo) {
+            Arrays.fill(row, -1);
+        }
+        return dp(s, 0, t, 0);
+    }
+    
+    int dp(String s, int i, String t, int j) {
+        // base case 1
+        if (j == t.length()) {
+            return 1;
+        }
+        // base case 2
+        if (s.length() - i < t.length() - j) {
+            return 0;
+        }
+        
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        int res = 0;
+        
+        if (s.charAt(i) == t.charAt(j)) {
+            res += dp(s, i + 1, t, j + 1) + dp(s, i + 1, t, j);
+        } else {
+            res += dp(s, i + 1, t, j);
+        }
+        
+        memo[i][j] = res;
+        return res;
+    }
+}
+```
 
 ### 300. Longest Increasing Subsequence
 Example 1:
