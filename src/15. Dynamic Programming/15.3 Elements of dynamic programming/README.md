@@ -1,11 +1,238 @@
 # Elements of the dynamic programming
 
 ## Leetcode problems
+- 139.Word Break
+- 140.Word Break II
 - 322.Coin Change
 - 509.Fibonacci sequence
 - 931.Minimum Falling Path Sum
 
-### 322.Coin Change
+### 139. Word Break
+Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+ 
+
+Example 1:
+```
+Input: s = "leetcode", wordDict = ["leet","code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".
+```
+
+Example 2:
+```
+Input: s = "applepenapple", wordDict = ["apple","pen"]
+Output: true
+Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+Note that you are allowed to reuse a dictionary word.
+```
+
+Example 3:
+```
+Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+Output: false
+``` 
+
+Constraints:
+
+- 1 <= s.length <= 300
+- 1 <= wordDict.length <= 1000
+- 1 <= wordDict[i].length <= 20
+- s and wordDict[i] consist of only lowercase English letters.
+- All the strings of wordDict are unique.
+
+#### Solution I - Backtrack
+```
+class Solution {
+    List<String> wordDict;
+    boolean found = false;
+    LinkedList<String> track = new LinkedList<>();
+
+    public boolean wordBreak(String s, List<String> wordDict) {
+        this.wordDict = wordDict;
+        backtrack(s, 0);
+        return found;
+    }
+
+    void backtrack(String s, int i) {
+        // base case
+        if (found) {
+            return;
+        }
+        if (i == s.length()) {
+            found = true;
+            return;
+        }
+
+        for (String word : wordDict) {
+            int len = word.length();
+            if (i + len <= s.length()
+                && s.substring(i, i + len).equals(word)) {
+                track.addLast(word);
+                backtrack(s, i + len);
+                track.removeLast();
+            }
+        }
+    }
+}
+
+```
+
+#### Solution II - Memo
+```
+class Solution {
+    HashSet<String> wordDict;
+    int[] memo;
+
+    public boolean wordBreak(String s, List<String> wordDict) {
+        this.wordDict = new HashSet<>(wordDict);
+        this.memo = new int[s.length()];
+        Arrays.fill(memo, -1);
+        return dp(s, 0);
+    }
+
+    boolean dp(String s, int i) {
+        // base case
+        if (i == s.length()) {
+            return true;
+        }
+        if (memo[i] != -1) {
+            return memo[i] == 0 ? false : true;
+        }
+
+        for (int len = 1; i + len <= s.length(); len++) {
+            String prefix = s.substring(i, i + len);
+            if (wordDict.contains(prefix)) {
+                boolean subProblem = dp(s, i + len);
+                if (subProblem == true) {
+                    memo[i] = 1;
+                    return true;
+                }
+            }
+        }
+        memo[i] = 0;
+        return false;
+    }
+}
+
+```
+
+### 140. Work Break II
+
+Given a string s and a dictionary of strings wordDict, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences in any order.
+
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+ 
+
+Example 1:
+```
+Input: s = "catsanddog", wordDict = ["cat","cats","and","sand","dog"]
+Output: ["cats and dog","cat sand dog"]
+```
+
+Example 2:
+```
+Input: s = "pineapplepenapple", wordDict = ["apple","pen","applepen","pine","pineapple"]
+Output: ["pine apple pen apple","pineapple pen apple","pine applepen apple"]
+Explanation: Note that you are allowed to reuse a dictionary word.
+```
+
+Example 3:
+```
+Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+Output: []
+``` 
+
+Constraints:
+
+- 1 <= s.length <= 20
+- 1 <= wordDict.length <= 1000
+- 1 <= wordDict[i].length <= 10
+- s and wordDict[i] consist of only lowercase English letters.
+- All the strings of wordDict are unique.
+- Input is generated in a way that the length of the answer doesn't exceed 105.
+
+#### Solution I - Backtrack
+```
+class Solution {
+    List<String> res = new LinkedList<>();
+    LinkedList<String> track = new LinkedList<>();
+    List<String> wordDict;
+
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        this.wordDict = wordDict;
+        backtrack(s, 0);
+        return res;
+    }
+
+    void backtrack(String s, int i) {
+        // base case
+        if (i == s.length()) {
+            res.add(String.join(" ", track));
+            return;
+        }
+
+        for (String word : wordDict) {
+            int len = word.length();
+            if (i + len <= s.length()
+                && s.substring(i, i + len).equals(word)) {
+                track.addLast(word);
+                backtrack(s, i + len);
+                track.removeLast();
+            }
+        }
+    }
+}
+
+```
+
+#### Solution II - Memo
+```
+class Solution {
+    HashSet<String> wordDict;
+    List<String>[] memo;
+
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        this.wordDict = new HashSet<>(wordDict);
+        memo = new List[s.length()];
+        return dp(s, 0);
+    }
+
+
+    List<String> dp(String s, int i) {
+        List<String> res = new LinkedList<>();
+        if (i == s.length()) {
+            res.add("");
+            return res;
+        }
+        if (memo[i] != null) {
+            return memo[i];
+        }
+        
+        for (int len = 1; i + len <= s.length(); len++) {
+            String prefix = s.substring(i, i + len);
+            if (wordDict.contains(prefix)) {
+                List<String> subProblem = dp(s, i + len);
+                for (String sub : subProblem) {
+                    if (sub.isEmpty()) {
+                        res.add(prefix);
+                    } else {
+                        res.add(prefix + " " + sub);
+                    }
+                }
+            }
+        }
+        memo[i] = res;
+        
+        return res;
+    }
+}
+
+```
+### 322. Coin Change
 You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
 
 Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.

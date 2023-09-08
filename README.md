@@ -70,6 +70,8 @@ Trie
 ## IV Advanced Design and Analysis Techniques
 ### 15. Dynamic Programming
 #### [15.3 Elements of dynamic programming](src/15.%20Dynamic%20Programming/15.3%20Elements%20of%20dynamic%20programming/)
+- 139.Word Break
+- 140.Work Break II
 - 322.Coin Change
 - 509.Fibonacci sequence
 - 931.Minimum Falling Path Sum
