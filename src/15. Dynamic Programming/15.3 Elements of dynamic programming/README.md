@@ -1,11 +1,92 @@
 # Elements of the dynamic programming
 
 ## Leetcode problems
+- 72.Edit Distance
 - 139.Word Break
 - 140.Word Break II
 - 322.Coin Change
 - 509.Fibonacci sequence
 - 931.Minimum Falling Path Sum
+
+### 72. Edit Distance
+Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
+
+You have the following three operations permitted on a word:
+
+Insert a character
+Delete a character
+Replace a character
+ 
+
+Example 1:
+```
+Input: word1 = "horse", word2 = "ros"
+Output: 3
+Explanation: 
+horse -> rorse (replace 'h' with 'r')
+rorse -> rose (remove 'r')
+rose -> ros (remove 'e')
+```
+
+Example 2:
+```
+Input: word1 = "intention", word2 = "execution"
+Output: 5
+Explanation: 
+intention -> inention (remove 't')
+inention -> enention (replace 'i' with 'e')
+enention -> exention (replace 'n' with 'x')
+exention -> exection (replace 'n' with 'c')
+exection -> execution (insert 'u')
+```
+
+Constraints:
+
+- 0 <= word1.length, word2.length <= 500
+- word1 and word2 consist of lowercase English letters.
+
+#### Solution
+```
+class Solution {
+
+    int[][] memo;
+        
+    public int minDistance(String s1, String s2) {
+        int m = s1.length(), n = s2.length();
+        
+        memo = new int[m][n];
+        for (int[] row : memo) {
+            Arrays.fill(row, -1);
+        }
+        return dp(s1, m - 1, s2, n - 1);
+    }
+
+    int dp(String s1, int i, String s2, int j) {
+        if (i == -1) return j + 1;
+        if (j == -1) return i + 1;
+        
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        
+        if (s1.charAt(i) == s2.charAt(j)) {
+            memo[i][j] = dp(s1, i - 1, s2, j - 1);
+        } else {
+            memo[i][j] =  min(
+                dp(s1, i, s2, j - 1) + 1,
+                dp(s1, i - 1, s2, j) + 1,
+                dp(s1, i - 1, s2, j - 1) + 1
+            );
+        }
+        return memo[i][j];
+    }
+
+    int min(int a, int b, int c) {
+        return Math.min(a, Math.min(b, c));
+    }
+}
+
+```
 
 ### 139. Word Break
 Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
