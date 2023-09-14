@@ -1,12 +1,114 @@
 # Elements of the dynamic programming
 
 ## Leetcode problems
+- 53.Maximum Subarray
 - 72.Edit Distance
 - 139.Word Break
 - 140.Word Break II
 - 322.Coin Change
 - 509.Fibonacci sequence
 - 931.Minimum Falling Path Sum
+
+### 53. Maximum Subarray
+Given an integer array nums, find the 
+subarray
+ with the largest sum, and return its sum.
+
+ 
+
+Example 1:
+```
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+```
+
+Example 2:
+```
+Input: nums = [1]
+Output: 1
+Explanation: The subarray [1] has the largest sum 1.
+```
+
+Example 3:
+```
+Input: nums = [5,4,-1,7,8]
+Output: 23
+Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+``` 
+
+Constraints:
+
+- 1 <= nums.length <= 105
+- -104 <= nums[i] <= 104
+ 
+
+Follow up: If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
+
+#### Solution - Sliding Window
+```
+class Solution {
+    int maxSubArray(int[] nums) {
+        int left = 0, right = 0;
+        int windowSum = 0, maxSum = Integer.MIN_VALUE;
+        while(right < nums.length){
+            windowSum += nums[right];
+            right++;
+
+            maxSum = windowSum > maxSum ? windowSum : maxSum;
+
+            while(windowSum < 0) {
+                windowSum -=  nums[left];
+                left++;
+            }
+        }
+        return maxSum;
+    }
+}
+```
+
+#### Solution - Dynamic Programming
+```
+class Solution {
+    int maxSubArray(int[] nums) {
+        int n = nums.length;
+        if (n == 0) return 0;
+
+        int[] dp = new int[n];
+        // base case
+        dp[0] = nums[0];
+
+        for (int i = 1; i < n; i++) {
+            dp[i] = Math.max(nums[i], nums[i] + dp[i - 1]);
+        }
+
+        int res = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            res = Math.max(res, dp[i]);
+        }
+        return res;
+    }
+}
+```
+Space Optimization:
+```
+int maxSubArray(int[] nums) {
+    int n = nums.length;
+    if (n == 0) return 0;
+    // base case
+    int dp_0 = nums[0];
+    int dp_1 = 0, res = dp_0;
+
+    for (int i = 1; i < n; i++) {
+        // dp[i] = max(nums[i], nums[i] + dp[i-1])
+        dp_1 = Math.max(nums[i], nums[i] + dp_0);
+        dp_0 = dp_1;
+        res = Math.max(res, dp_1);
+    }
+    
+    return res;
+}
+```
 
 ### 72. Edit Distance
 Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
