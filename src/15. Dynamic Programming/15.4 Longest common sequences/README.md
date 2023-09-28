@@ -4,6 +4,7 @@
 - 115.Distinct Subsequences
 - 300.Longest Increasing Subsequence
 - 354.Russian Doll Envelopes
+- 1143.Longest Common Subsequence
 
 ### 115. Distinct Subsequences
 Given two strings s and t, return the number of distinct 
@@ -252,5 +253,82 @@ class Solution {
         return res;
     }
 
+}
+```
+
+### 1143. Longest Common Subsequence
+
+Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0.
+
+A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
+
+For example, "ace" is a subsequence of "abcde".
+A common subsequence of two strings is a subsequence that is common to both strings.
+
+ 
+
+Example 1:
+```
+Input: text1 = "abcde", text2 = "ace" 
+Output: 3  
+Explanation: The longest common subsequence is "ace" and its length is 3.
+```
+
+Example 2:
+```
+Input: text1 = "abc", text2 = "abc"
+Output: 3
+Explanation: The longest common subsequence is "abc" and its length is 3.
+```
+
+Example 3:
+```
+Input: text1 = "abc", text2 = "def"
+Output: 0
+Explanation: There is no such common subsequence, so the result is 0.
+``` 
+
+Constraints:
+
+- 1 <= text1.length, text2.length <= 1000
+- text1 and text2 consist of only lowercase English characters.
+
+#### Solution
+```
+class Solution {
+ 
+    int[][] memo;
+
+    
+    int longestCommonSubsequence(String s1, String s2) {
+        int m = s1.length(), n = s2.length();
+        
+        memo = new int[m][n];
+        for (int[] row : memo) 
+            Arrays.fill(row, -1);
+        
+        return dp(s1, 0, s2, 0);
+    }
+
+    int dp(String s1, int i, String s2, int j) {
+        // base case
+        if (i == s1.length() || j == s2.length()) {
+            return 0;
+        }
+
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+      
+        if (s1.charAt(i) == s2.charAt(j)) {
+            memo[i][j] = 1 + dp(s1, i + 1, s2, j + 1);
+        } else {
+            memo[i][j] = Math.max(
+                dp(s1, i + 1, s2, j),
+                dp(s1, i, s2, j + 1)
+            );
+        }
+        return memo[i][j];
+    }
 }
 ```
