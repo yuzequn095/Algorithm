@@ -76,6 +76,7 @@ Trie
 - 140.Work Break II
 - 322.Coin Change
 - 509.Fibonacci sequence
+- 583.Delete Operation for Two Strings
 - 931.Minimum Falling Path Sum
 
 #### [15.4 Longest common sequences](src/15.%20Dynamic%20Programming/15.4%20Longest%20common%20sequences/)
