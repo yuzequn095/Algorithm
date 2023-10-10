@@ -84,6 +84,7 @@ Trie
 - 115.Distinct Subsequences
 - 300.Longest Increasing Subsequence
 - 354.Russian Doll Envelopes
+- 516.Longest Palindromic Subsequence
 - 1143.Longest Common Subsequence
 
 ## VI Graph Algorithms
