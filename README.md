@@ -69,6 +69,9 @@ Trie
 
 ## IV Advanced Design and Analysis Techniques
 ### 15. Dynamic Programming
+#### [15.1 Rod Cutting](src/15.%20Dynamic%20Programming/15.1%20Rod%20Cutting/)
+- 416.Partition Equal Subset Sum
+
 #### [15.3 Elements of dynamic programming](src/15.%20Dynamic%20Programming/15.3%20Elements%20of%20dynamic%20programming/)
 - 53.Maximum Subarray
 - 72.Edit Distance
