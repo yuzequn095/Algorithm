@@ -70,6 +70,7 @@ Trie
 ## IV Advanced Design and Analysis Techniques
 ### 15. Dynamic Programming
 #### [15.1 Rod Cutting](src/15.%20Dynamic%20Programming/15.1%20Rod%20Cutting/)
+- 64.Minimum Path Sum
 - 416.Partition Equal Subset Sum
 - 494.Target Sum
 - 518.Coin Change II
