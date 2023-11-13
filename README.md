@@ -80,6 +80,7 @@ Trie
 - 72.Edit Distance
 - 139.Word Break
 - 140.Work Break II
+- 174.Dungeon Game
 - 322.Coin Change
 - 509.Fibonacci sequence
 - 583.Delete Operation for Two Strings
