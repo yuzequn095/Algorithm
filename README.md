@@ -83,6 +83,7 @@ Trie
 - 174.Dungeon Game
 - 322.Coin Change
 - 509.Fibonacci sequence
+- 514.Freedom Trail
 - 583.Delete Operation for Two Strings
 - 712.Minimum ASCII Delete Sum for Two Strings
 - 931.Minimum Falling Path Sum
