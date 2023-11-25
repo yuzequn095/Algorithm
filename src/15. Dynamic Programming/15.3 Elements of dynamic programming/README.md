@@ -11,6 +11,7 @@
 - 514.Freedom Trail
 - 583.Delete Operation for Two Strings
 - 712.Minimum ASCII Delete Sum for Two Strings
+- 787.Cheapest Flights Within k Stops
 - 931.Minimum Falling Path Sum
 
 ### 53. Maximum Subarray
@@ -880,6 +881,205 @@ class Solution {
         return memo[i][j];
     }
 }
+```
+
+### 787. Cheapest Flights Within k Stops
+
+There are n cities connected by some number of flights. You are given an array flights where flights[i] = [fromi, toi, pricei] indicates that there is a flight from city fromi to city toi with cost pricei.
+
+You are also given three integers src, dst, and k, return the cheapest price from src to dst with at most k stops. If there is no such route, return -1.
+
+ 
+
+Example 1:
+<img src="../../static/787-1.png">
+```
+Input: n = 4, flights = [[0,1,100],[1,2,100],[2,0,100],[1,3,600],[2,3,200]], src = 0, dst = 3, k = 1
+Output: 700
+Explanation:
+The graph is shown above.
+The optimal path with at most 1 stop from city 0 to 3 is marked in red and has cost 100 + 600 = 700.
+Note that the path through cities [0,1,2,3] is cheaper but is invalid because it uses 2 stops.
+```
+
+
+Example 2:
+<img src="../../static/787-2.png">
+```
+Input: n = 3, flights = [[0,1,100],[1,2,100],[0,2,500]], src = 0, dst = 2, k = 1
+Output: 200
+Explanation:
+The graph is shown above.
+The optimal path with at most 1 stop from city 0 to 2 is marked in red and has cost 100 + 100 = 200.
+```
+
+Example 3:
+<img src="../../static/787-3.png">
+```
+Input: n = 3, flights = [[0,1,100],[1,2,100],[0,2,500]], src = 0, dst = 2, k = 0
+Output: 500
+Explanation:
+The graph is shown above.
+The optimal path with no stops from city 0 to 2 is marked in red and has cost 500.
+```
+
+Constraints:
+
+- 1 <= n <= 100
+- 0 <= flights.length <= (n * (n - 1) / 2)
+- flights[i].length == 3
+- 0 <= fromi, toi < n
+- fromi != toi
+- 1 <= pricei <= 104
+- There will not be any multiple flights between two cities.
+- 0 <= src, dst, k < n
+- src != dst
+
+
+#### Solution - DP
+```
+class Solution {
+    int src, dst;
+    HashMap<Integer, List<int[]>> indegree;
+    int[][] memo;
+
+    public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+        K++;
+        this.src = src;
+        this.dst = dst;
+
+        memo = new int[n][K + 1];
+        for (int[] row : memo) {
+            Arrays.fill(row, -888);
+        }
+            
+        // set up indegree map [s1, (s0, price)]
+        indegree = new HashMap<>();
+        for (int[] f : flights) {
+            int from = f[0];
+            int to = f[1];
+            int price = f[2];
+            indegree.putIfAbsent(to, new LinkedList<>());
+            indegree.get(to).add(new int[] {from, price});
+        }
+        
+        return dp(dst, K);
+    }
+
+    // the cheapest from src to s within k 
+    int dp(int s, int k) {
+        // find the src, no more cost
+        if (s == src) {
+            return 0;
+        }
+        // out of the k stops
+        if (k == 0) {
+            return -1;
+        }
+
+        if (memo[s][k] != -888) {
+            return memo[s][k];
+        }
+
+        int res = Integer.MAX_VALUE;
+        if (indegree.containsKey(s)) {
+            for (int[] v : indegree.get(s)) {
+                int from = v[0];
+                int price = v[1];
+                
+                int subProblem = dp(from, k - 1);
+
+                if (subProblem != -1) {
+                    res = Math.min(res, subProblem + price);
+                }
+            }
+        }
+        
+        
+        memo[s][k] = res == Integer.MAX_VALUE ? -1 : res;
+        return memo[s][k];
+    }
+
+}
+```
+
+#### Solution - Dijkstra 
+```
+public int findCheapestPrice(int n, int[][] flights, int src, int dst, int K) {
+    List<int[]>[] graph = new LinkedList[n];
+    for (int i = 0; i < n; i++) {
+        graph[i] = new LinkedList<>();
+    }
+    for (int[] edge : flights) {
+        int from = edge[0];
+        int to = edge[1];
+        int price = edge[2];
+        graph[from].add(new int[]{to, price});
+    }
+
+    K++;
+    return dijkstra(graph, src, K, dst);
+}
+
+class State {
+    int id;
+    int costFromSrc;
+    int nodeNumFromSrc;
+
+    State(int id, int costFromSrc, int nodeNumFromSrc) {
+        this.id = id;
+        this.costFromSrc = costFromSrc;
+        this.nodeNumFromSrc = nodeNumFromSrc;
+    }
+}
+
+int dijkstra(List<int[]>[] graph, int src, int k, int dst) {
+    int[] distTo = new int[graph.length];
+    int[] nodeNumTo = new int[graph.length];
+    Arrays.fill(distTo, Integer.MAX_VALUE);
+    Arrays.fill(nodeNumTo, Integer.MAX_VALUE);
+    // base case
+    distTo[src] = 0;
+    nodeNumTo[src] = 0;
+
+    Queue<State> pq = new PriorityQueue<>((a, b) -> {
+        return a.costFromSrc - b.costFromSrc;
+    });
+    pq.offer(new State(src, 0, 0));
+
+    while (!pq.isEmpty()) {
+        State curState = pq.poll();
+        int curNodeID = curState.id;
+        int costFromSrc = curState.costFromSrc;
+        int curNodeNumFromSrc = curState.nodeNumFromSrc;
+        
+        if (curNodeID == dst) {
+            return costFromSrc;
+        }
+        if (curNodeNumFromSrc == k) {
+            continue;
+        }
+
+        for (int[] neighbor : graph[curNodeID]) {
+            int nextNodeID = neighbor[0];
+            int costToNextNode = costFromSrc + neighbor[1];
+            int nextNodeNumFromSrc = curNodeNumFromSrc + 1;
+
+            if (distTo[nextNodeID] > costToNextNode) {
+                distTo[nextNodeID] = costToNextNode;
+                nodeNumTo[nextNodeID] = nextNodeNumFromSrc;
+            }
+            if (costToNextNode > distTo[nextNodeID]
+                && nextNodeNumFromSrc > nodeNumTo[nextNodeID]) {
+                continue;
+            }
+            
+            pq.offer(new State(nextNodeID, costToNextNode, nextNodeNumFromSrc));
+        }
+    }
+    return -1;
+}
+
 ```
 
 ### 931. Minimum Falling Path Sum
