@@ -76,6 +76,7 @@ Trie
 - 518.Coin Change II
 
 #### [15.3 Elements of dynamic programming](src/15.%20Dynamic%20Programming/15.3%20Elements%20of%20dynamic%20programming/)
+- 10.Regular Expression Matching
 - 53.Maximum Subarray
 - 72.Edit Distance
 - 139.Word Break

@@ -1,6 +1,7 @@
 # Elements of the dynamic programming
 
 ## Leetcode problems
+- 10.Regular Expression Matching
 - 53.Maximum Subarray
 - 72.Edit Distance
 - 139.Word Break
@@ -13,6 +14,126 @@
 - 712.Minimum ASCII Delete Sum for Two Strings
 - 787.Cheapest Flights Within k Stops
 - 931.Minimum Falling Path Sum
+
+### 10. Regular Expression Matching
+Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:
+
+- '.' Matches any single character.​​​​
+- '*' Matches zero or more of the preceding element.
+The matching should cover the entire input string (not partial).
+
+ 
+
+Example 1:
+```
+Input: s = "aa", p = "a"
+Output: false
+Explanation: "a" does not match the entire string "aa".
+```
+
+Example 2:
+```
+Input: s = "aa", p = "a*"
+Output: true
+Explanation: '*' means zero or more of the preceding element, 'a'. Therefore, by repeating 'a' once, it becomes "aa".
+```
+
+Example 3:
+```
+Input: s = "ab", p = ".*"
+Output: true
+Explanation: ".*" means "zero or more (*) of any character (.)".
+``` 
+
+Constraints:
+
+- 1 <= s.length <= 20
+- 1 <= p.length <= 20
+- s contains only lowercase English letters.
+- p contains only lowercase English letters, '.', and '*'.
+- It is guaranteed for each appearance of the character '*', there will be a previous valid character to match.
+
+#### Solution
+```
+class Solution {
+    /*
+     * (s, i, p, j) -> first i of s and first j of p match
+     * if same (s[i] == p[j] || p[j] == ".")
+     *      if next j is "*"
+     *          repeat 0: (s, i, p, j + 2)
+     *          repeat more than 0: (s, i + 1, p, j)
+     *      else 
+     *          (s, i + 1, p, j + 1)
+     *  else if not same
+     *      if next j is "*"
+     *          repeat 0: (s, i, p, j + 2)
+     *      else
+     *          return false
+     */
+    
+    private Map<String, Boolean> map;
+    public boolean isMatch(String s, String p) {
+        map = new HashMap<>();
+        return match(s, 0, p, 0);
+    }
+    
+    public boolean match(String s, int i, String p, int j){
+        int lenS = s.length(), lenP = p.length();
+        
+        // reach the end
+        // if p reach the end, then check if s reach the end
+        if(j == lenP){
+            return i == lenS;
+        }
+        // if s reach the end, check if remain p can skip
+        if(i == lenS){
+            if((lenP - j) % 2 == 1){
+                return false;
+            }
+            for(; j +  1 < lenP; j += 2){
+                if(p.charAt(j + 1) != '*'){
+                    return false;
+                }
+            }
+            return true;
+        }
+        
+        String str = s.substring(0, i + 1) + p.substring(0, j + 1);
+        if(map.containsKey(str)){
+            return map.get(str);
+        }
+        
+        boolean ret = false;
+        // if same
+        if(s.charAt(i) == p.charAt(j) || p.charAt(j) == '.'){
+            // if next j is "*"
+            if(j < lenP - 1 && p.charAt(j + 1) == '*'){
+                ret = match(s, i, p, j + 2) || match(s, i + 1, p, j);
+            }
+            // if next j is not "*", can't reapeat
+            else{
+                ret = match(s, i + 1, p, j + 1);
+            }
+        }
+        
+        // if not same
+        else{
+            // if next j is '*', repeat 0
+            if(j < lenP - 1 && p.charAt(j + 1) == '*'){
+                ret = match(s, i, p, j + 2);
+            }
+            // if not match and can't skip
+            else{
+                ret = false;
+            }
+        }
+        
+        map.put(str, ret);
+        
+        return ret;
+    }
+}
+```
 
 ### 53. Maximum Subarray
 Given an integer array nums, find the 
