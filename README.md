@@ -88,6 +88,7 @@ Trie
 - 583.Delete Operation for Two Strings
 - 712.Minimum ASCII Delete Sum for Two Strings
 - 787.Cheapest Flights Within k Stops
+- 887.Super Egg Drop
 - 931.Minimum Falling Path Sum
 
 #### [15.4 Longest common sequences](src/15.%20Dynamic%20Programming/15.4%20Longest%20common%20sequences/)
