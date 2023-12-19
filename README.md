@@ -84,11 +84,13 @@ Trie
 - 174.Dungeon Game
 - 312.Burst Balloons
 - 322.Coin Change
+- 486.Predict the Winnder
 - 509.Fibonacci sequence
 - 514.Freedom Trail
 - 583.Delete Operation for Two Strings
 - 712.Minimum ASCII Delete Sum for Two Strings
 - 787.Cheapest Flights Within k Stops
+- 877.Stone Game
 - 887.Super Egg Drop
 - 931.Minimum Falling Path Sum
 
