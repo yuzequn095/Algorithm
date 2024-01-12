@@ -82,8 +82,11 @@ Trie
 - 139.Word Break
 - 140.Work Break II
 - 174.Dungeon Game
+- 198.House Robber
+- 213.Hourse Robber II
 - 312.Burst Balloons
 - 322.Coin Change
+- 337.House Robber III
 - 486.Predict the Winnder
 - 509.Fibonacci sequence
 - 514.Freedom Trail

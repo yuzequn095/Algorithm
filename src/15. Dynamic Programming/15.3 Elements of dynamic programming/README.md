@@ -7,8 +7,11 @@
 - 139.Word Break
 - 140.Word Break II
 - 174.Dungeon Game
+- 198.House Robber
+- 213.Hourse Robber II
 - 312.Burst Balloons
 - 322.Coin Change
+- 337.Hourse Robber III
 - 486.Predict the Winner
 - 509.Fibonacci sequence
 - 514.Freedom Trail
@@ -691,6 +694,148 @@ class Solution {
 }
 ```
 
+### 198. House Robber
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+ 
+
+Example 1:
+```
+Input: nums = [1,2,3,1]
+Output: 4
+Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+Total amount you can rob = 1 + 3 = 4.
+```
+
+Example 2:
+```
+Input: nums = [2,7,9,3,1]
+Output: 12
+Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
+Total amount you can rob = 2 + 9 + 1 = 12.
+``` 
+
+Constraints:
+
+- 1 <= nums.length <= 100
+- 0 <= nums[i] <= 400
+
+#### Solution - Top Down
+```
+class Solution {
+    private int[] memo;
+
+    public int rob(int[] nums) {
+        memo = new int[nums.length];
+        Arrays.fill(memo, -1);
+        return dp(nums, 0);
+    }
+
+    private int dp(int[] nums, int start) {
+        if (start >= nums.length) {
+            return 0;
+        }
+        if (memo[start] != -1) return memo[start];
+        
+        int res = Math.max(dp(nums, start + 1), nums[start] + dp(nums, start + 2));
+        memo[start] = res;
+        return res;
+    }
+
+}
+```
+
+#### Solution - Down Top
+```
+ int rob(int[] nums) {
+    int n = nums.length;
+    // base case: dp[n] = 0
+    int[] dp = new int[n + 2];
+    for (int i = n - 1; i >= 0; i--) {
+        dp[i] = Math.max(dp[i + 1], nums[i] + dp[i + 2]);
+    }
+    return dp[0];
+}
+
+```
+
+#### Solution - Down Top Optimization
+```
+int rob(int[] nums) {
+    int n = nums.length;
+    int dp_i_1 = 0, dp_i_2 = 0;
+    int dp_i = 0; 
+    for (int i = n - 1; i >= 0; i--) {
+        dp_i = Math.max(dp_i_1, nums[i] + dp_i_2);
+        dp_i_2 = dp_i_1;
+        dp_i_1 = dp_i;
+    }
+    return dp_i;
+}
+
+```
+
+#### 213. House Robber II
+
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, adjacent houses have a security system connected, and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+ 
+
+Example 1:
+```
+Input: nums = [2,3,2]
+Output: 3
+Explanation: You cannot rob house 1 (money = 2) and then rob house 3 (money = 2), because they are adjacent houses.
+```
+
+Example 2:
+```
+Input: nums = [1,2,3,1]
+Output: 4
+Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+Total amount you can rob = 1 + 3 = 4.
+```
+
+Example 3:
+```
+Input: nums = [1,2,3]
+Output: 3
+``` 
+
+Constraints:
+
+- 1 <= nums.length <= 100
+- 0 <= nums[i] <= 1000
+
+#### Solution
+```
+class Solution {
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 1) return nums[0];
+        return Math.max(robRange(nums, 0, n - 2), 
+                        robRange(nums, 1, n - 1));
+    }
+
+    int robRange(int[] nums, int start, int end) {
+        int n = nums.length;
+        int dp_i_1 = 0, dp_i_2 = 0;
+        int dp_i = 0;
+        for (int i = end; i >= start; i--) {
+            dp_i = Math.max(dp_i_1, nums[i] + dp_i_2);
+            dp_i_2 = dp_i_1;
+            dp_i_1 = dp_i;
+        }
+        return dp_i;
+    }
+
+}
+```
+
 ### 322. Coin Change
 You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
 
@@ -756,6 +901,96 @@ class Solution {
         memo[amount] = (res == Integer.MAX_VALUE) ? -1 : res;
         return memo[amount];
     }
+}
+
+```
+
+### 337. House Robber III
+
+The thief has found himself a new place for his thievery again. There is only one entrance to this area, called root.
+
+Besides the root, each house has one and only one parent house. After a tour, the smart thief realized that all houses in this place form a binary tree. It will automatically contact the police if two directly-linked houses were broken into on the same night.
+
+Given the root of the binary tree, return the maximum amount of money the thief can rob without alerting the police.
+
+ 
+
+Example 1:
+<img src="/static/337-1.jpg">
+```
+Input: root = [3,2,3,null,3,null,1]
+Output: 7
+Explanation: Maximum amount of money the thief can rob = 3 + 3 + 1 = 7.
+```
+
+Example 2:
+<img src="/static/337-2.jpg">
+```
+Input: root = [3,4,5,1,3,null,1]
+Output: 9
+Explanation: Maximum amount of money the thief can rob = 4 + 5 = 9.
+``` 
+
+Constraints:
+
+- The number of nodes in the tree is in the range [1, 104].
+- 0 <= Node.val <= 104
+
+#### Solution
+```
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    Map<TreeNode, Integer> memo = new HashMap<>();
+    public int rob(TreeNode root) {
+        if (root == null) return 0;
+        if (memo.containsKey(root)) 
+            return memo.get(root);
+        int do_it = root.val
+            + (root.left == null ? 
+                0 : rob(root.left.left) + rob(root.left.right))
+            + (root.right == null ? 
+                0 : rob(root.right.left) + rob(root.right.right));
+        int not_do = rob(root.left) + rob(root.right);
+        
+        int res = Math.max(do_it, not_do);
+        memo.put(root, res);
+        return res;
+    }
+
+}
+```
+
+#### Solution - Space Optimization
+```
+int rob(TreeNode root) {
+    int[] res = dp(root);
+    return Math.max(res[0], res[1]);
+}
+
+int[] dp(TreeNode root) {
+    if (root == null)
+        return new int[]{0, 0};
+    int[] left = dp(root.left);
+    int[] right = dp(root.right);
+    int rob = root.val + left[0] + right[0];
+    int not_rob = Math.max(left[0], left[1])
+                + Math.max(right[0], right[1]);
+    
+    return new int[]{not_rob, rob};
 }
 
 ```
