@@ -4,11 +4,14 @@
 - 10.Regular Expression Matching
 - 53.Maximum Subarray
 - 72.Edit Distance
+- 121.Best time to Buy and Sell Stock
+- 122.Best Time to Buy and Sell Stock II
 - 139.Word Break
 - 140.Word Break II
 - 174.Dungeon Game
 - 198.House Robber
 - 213.Hourse Robber II
+- 309.Best Time to Buy and Sell Stock with Cooldown
 - 312.Burst Balloons
 - 322.Coin Change
 - 337.Hourse Robber III
@@ -18,6 +21,7 @@
 - 583.Delete Operation for Two Strings
 - 651.4 Keys Keyboard
 - 712.Minimum ASCII Delete Sum for Two Strings
+- 714.Best Time to Buy and Sell Stock with Transaction Fee
 - 787.Cheapest Flights Within k Stops
 - 877.Stone Game
 - 887.Super Egg Drop
@@ -322,6 +326,225 @@ class Solution {
     }
 }
 
+```
+
+### 121. Best Time to Buy and Sell Stock
+
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+ 
+
+Example 1:
+```
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+```
+
+Example 2:
+```
+Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transactions are done and the max profit = 0.
+``` 
+
+Constraints:
+
+- 1 <= prices.length <= 105
+- 0 <= prices[i] <= 104
+
+#### Solution
+```
+class Solution {
+    int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            if (i - 1 == -1) {
+                // base case
+                dp[i][0] = 0;
+                dp[i][1] = -prices[i];
+                continue;
+            }
+            dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1] + prices[i]);
+            dp[i][1] = Math.max(dp[i-1][1], -prices[i]);
+        }
+        return dp[n - 1][0];
+    }
+}
+```
+
+#### Solution - Space Optimized
+```
+int maxProfit_k_1(int[] prices) {
+    int n = prices.length;
+    // base case: dp[-1][0] = 0, dp[-1][1] = -infinity
+    int dp_i_0 = 0, dp_i_1 = Integer.MIN_VALUE;
+    for (int i = 0; i < n; i++) {
+        // dp[i][0] = max(dp[i-1][0], dp[i-1][1] + prices[i])
+        dp_i_0 = Math.max(dp_i_0, dp_i_1 + prices[i]);
+        // dp[i][1] = max(dp[i-1][1], -prices[i])
+        dp_i_1 = Math.max(dp_i_1, -prices[i]);
+    }
+    return dp_i_0;
+}
+```
+
+### 122. Best Time to Buy and Sell Stock II
+
+You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
+
+On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
+
+Find and return the maximum profit you can achieve.
+
+ 
+
+Example 1:
+```
+Input: prices = [7,1,5,3,6,4]
+Output: 7
+Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.
+Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.
+Total profit is 4 + 3 = 7.
+```
+
+Example 2:
+```
+Input: prices = [1,2,3,4,5]
+Output: 4
+Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
+Total profit is 4.
+```
+
+Example 3:
+```
+Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: There is no way to make a positive profit, so we never buy the stock to achieve the maximum profit of 0.
+``` 
+
+Constraints:
+
+- 1 <= prices.length <= 3 * 104
+- 0 <= prices[i] <= 104
+
+#### Solution
+```
+class Solution {
+    int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            if (i - 1 == -1) {
+                // base case
+                dp[i][0] = 0;
+                dp[i][1] = -prices[i];
+                continue;
+            }
+            dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1] + prices[i]);
+            dp[i][1] = Math.max(dp[i-1][1], dp[i-1][0] - prices[i]);
+        }
+        return dp[n - 1][0];
+    }
+}
+```
+
+#### Solution - Space Optimized
+```
+int maxProfit_k_inf(int[] prices) {
+    int n = prices.length;
+    int dp_i_0 = 0, dp_i_1 = Integer.MIN_VALUE;
+    for (int i = 0; i < n; i++) {
+        int temp = dp_i_0;
+        dp_i_0 = Math.max(dp_i_0, dp_i_1 + prices[i]);
+        dp_i_1 = Math.max(dp_i_1, temp - prices[i]);
+    }
+    return dp_i_0;
+}
+```
+
+### 123. Best Time to Buy and Sell Stock III
+
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+Find the maximum profit you can achieve. You may complete at most two transactions.
+
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+ 
+
+Example 1:
+```
+Input: prices = [3,3,5,0,0,3,1,4]
+Output: 6
+Explanation: Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.
+```
+
+Example 2:
+```
+Input: prices = [1,2,3,4,5]
+Output: 4
+Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
+Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are engaging multiple transactions at the same time. You must sell before buying again.
+```
+
+Example 3:
+```
+Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transaction is done, i.e. max profit = 0.
+``` 
+
+Constraints:
+
+- 1 <= prices.length <= 105
+- 0 <= prices[i] <= 105
+
+#### Solution
+```
+class Solution {
+    int maxProfit(int[] prices) {
+        int max_k = 2, n = prices.length;
+        int[][][] dp = new int[n][max_k + 1][2];
+        for (int i = 0; i < n; i++) {
+            for (int k = max_k; k >= 1; k--) {
+                if (i - 1 == -1) {
+                    // base case
+                    dp[i][k][0] = 0;
+                    dp[i][k][1] = -prices[i];
+                    continue;
+                }
+                dp[i][k][0] = Math.max(dp[i-1][k][0], dp[i-1][k][1] + prices[i]);
+                dp[i][k][1] = Math.max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i]);
+            }
+        }
+    
+        return dp[n - 1][max_k][0];
+    }
+}
+```
+
+#### Solution - Space Optimized
+```
+int maxProfit_k_2(int[] prices) {
+    // base case
+    int dp_i10 = 0, dp_i11 = Integer.MIN_VALUE;
+    int dp_i20 = 0, dp_i21 = Integer.MIN_VALUE;
+    for (int price : prices) {
+        dp_i20 = Math.max(dp_i20, dp_i21 + price);
+        dp_i21 = Math.max(dp_i21, dp_i10 - price);
+        dp_i10 = Math.max(dp_i10, dp_i11 + price);
+        dp_i11 = Math.max(dp_i11, -price);
+    }
+    return dp_i20;
+}
 ```
 
 ### 139. Word Break
@@ -630,6 +853,84 @@ class Solution {
 }
 ```
 
+### 188. Best Time to Buy and Sell Stock IV
+You are given an integer array prices where prices[i] is the price of a given stock on the ith day, and an integer k.
+
+Find the maximum profit you can achieve. You may complete at most k transactions: i.e. you may buy at most k times and sell at most k times.
+
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+ 
+
+Example 1:
+```
+Input: k = 2, prices = [2,4,1]
+Output: 2
+Explanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-2 = 2.
+```
+
+Example 2:
+```
+Input: k = 2, prices = [3,2,6,5,0,3]
+Output: 7
+Explanation: Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit = 6-2 = 4. Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+``` 
+
+Constraints:
+
+- 1 <= k <= 100
+- 1 <= prices.length <= 1000
+- 0 <= prices[i] <= 1000
+
+#### Solution
+```
+class Solution {
+    int maxProfit(int max_k, int[] prices) {
+        int n = prices.length;
+        if (n <= 0) {
+            return 0;
+        }
+        if (max_k > n / 2) {
+            return maxProfit_k_inf(prices);
+        }
+
+        // base case：
+        // dp[-1][...][0] = dp[...][0][0] = 0
+        // dp[-1][...][1] = dp[...][0][1] = -infinity
+        int[][][] dp = new int[n][max_k + 1][2];
+        // k = 0 时的 base case
+        for (int i = 0; i < n; i++) {
+            dp[i][0][1] = Integer.MIN_VALUE;
+            dp[i][0][0] = 0;
+        }
+
+        for (int i = 0; i < n; i++) 
+            for (int k = max_k; k >= 1; k--) {
+                if (i - 1 == -1) {
+                    // 处理 i = -1 时的 base case
+                    dp[i][k][0] = 0;
+                    dp[i][k][1] = -prices[i];
+                    continue;
+                }
+                dp[i][k][0] = Math.max(dp[i-1][k][0], dp[i-1][k][1] + prices[i]);
+                dp[i][k][1] = Math.max(dp[i-1][k][1], dp[i-1][k-1][0] - prices[i]);     
+            }
+        return dp[n - 1][max_k][0];
+    }
+
+    int maxProfit_k_inf(int[] prices) {
+        int n = prices.length;
+        int dp_i_0 = 0, dp_i_1 = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) {
+            int temp = dp_i_0;
+            dp_i_0 = Math.max(dp_i_0, dp_i_1 + prices[i]);
+            dp_i_1 = Math.max(dp_i_1, temp - prices[i]);
+        }
+        return dp_i_0;
+    }
+}
+```
+
 ### 312. Burst Balloons
 
 You are given n balloons, indexed from 0 to n - 1. Each balloon is painted with a number on it represented by an array nums. You are asked to burst all the balloons.
@@ -833,6 +1134,83 @@ class Solution {
         return dp_i;
     }
 
+}
+```
+
+#### 309.Best Time to Buy and Sell Stock with Cooldown
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+Find the maximum profit you can achieve. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times) with the following restrictions:
+
+- After you sell your stock, you cannot buy stock on the next day (i.e., cooldown one day).
+
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+ 
+
+Example 1:
+```
+Input: prices = [1,2,3,0,2]
+Output: 3
+Explanation: transactions = [buy, sell, cooldown, buy, sell]
+```
+
+Example 2:
+```
+Input: prices = [1]
+Output: 0
+``` 
+
+Constraints:
+
+- 1 <= prices.length <= 5000
+- 0 <= prices[i] <= 1000
+
+#### Solution
+```
+class Solution {
+    int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            if (i - 1 == -1) {
+                // base case 1
+                dp[i][0] = 0;
+                dp[i][1] = -prices[i];
+                continue;
+            }
+            if (i - 2 == -1) {
+                // base case 2
+                dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1] + prices[i]);
+                // base case
+                dp[i][1] = Math.max(dp[i-1][1], -prices[i]);
+                //   dp[i][1] 
+                // = max(dp[i-1][1], dp[-1][0] - prices[i])
+                // = max(dp[i-1][1], 0 - prices[i])
+                // = max(dp[i-1][1], -prices[i])
+                continue;
+            }
+            dp[i][0] = Math.max(dp[i-1][0], dp[i-1][1] + prices[i]);
+            dp[i][1] = Math.max(dp[i-1][1], dp[i-2][0] - prices[i]);
+        }
+        return dp[n - 1][0];
+    }
+}
+```
+
+#### Solution - Space Optimized
+```
+int maxProfit_with_cool(int[] prices) {
+    int n = prices.length;
+    int dp_i_0 = 0, dp_i_1 = Integer.MIN_VALUE;
+    int dp_pre_0 = 0; // 代表 dp[i-2][0]
+    for (int i = 0; i < n; i++) {
+        int temp = dp_i_0;
+        dp_i_0 = Math.max(dp_i_0, dp_i_1 + prices[i]);
+        dp_i_1 = Math.max(dp_i_1, dp_pre_0 - prices[i]);
+        dp_pre_0 = temp;
+    }
+    return dp_i_0;
 }
 ```
 
@@ -1444,6 +1822,82 @@ class Solution {
         }
         return memo[i][j];
     }
+}
+```
+
+### 714.Best Time to Buy and Sell Stock with Transaction Fee
+
+You are given an array prices where prices[i] is the price of a given stock on the ith day, and an integer fee representing a transaction fee.
+
+Find the maximum profit you can achieve. You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction.
+
+Note:
+
+- You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+- The transaction fee is only charged once for each stock purchase and sale.
+ 
+
+Example 1:
+```
+Input: prices = [1,3,2,8,4,9], fee = 2
+Output: 8
+Explanation: The maximum profit can be achieved by:
+- Buying at prices[0] = 1
+- Selling at prices[3] = 8
+- Buying at prices[4] = 4
+- Selling at prices[5] = 9
+The total profit is ((8 - 1) - 2) + ((9 - 4) - 2) = 8.
+```
+
+Example 2:
+```
+Input: prices = [1,3,7,5,10,3], fee = 3
+Output: 6
+``` 
+
+Constraints:
+
+- 1 <= prices.length <= 5 * 104
+- 1 <= prices[i] < 5 * 104
+- 0 <= fee < 5 * 104
+
+#### Solution
+```
+class Solution {
+    int maxProfit(int[] prices, int fee) {
+        int n = prices.length;
+        int[][] dp = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            if (i - 1 == -1) {
+                // base case
+                dp[i][0] = 0;
+                dp[i][1] = -prices[i] - fee;
+                //   dp[i][1]
+                // = max(dp[i - 1][1], dp[i - 1][0] - prices[i] - fee)
+                // = max(dp[-1][1], dp[-1][0] - prices[i] - fee)
+                // = max(-inf, 0 - prices[i] - fee)
+                // = -prices[i] - fee
+                continue;
+            }
+            dp[i][0] = Math.max(dp[i - 1][0], dp[i - 1][1] + prices[i]);
+            dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] - prices[i] - fee);
+        }
+        return dp[n - 1][0];
+    }
+}
+```
+
+#### Solution - Space Optimized
+```
+int maxProfit_with_fee(int[] prices, int fee) {
+    int n = prices.length;
+    int dp_i_0 = 0, dp_i_1 = Integer.MIN_VALUE;
+    for (int i = 0; i < n; i++) {
+        int temp = dp_i_0;
+        dp_i_0 = Math.max(dp_i_0, dp_i_1 + prices[i]);
+        dp_i_1 = Math.max(dp_i_1, temp - prices[i] - fee);
+    }
+    return dp_i_0;
 }
 ```
 

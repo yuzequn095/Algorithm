@@ -79,11 +79,16 @@ Trie
 - 10.Regular Expression Matching
 - 53.Maximum Subarray
 - 72.Edit Distance
+- 121.Best Time to Buy and Sell Stock
+- 122.Best Time to Buy and Sell Stock II
+- 123.Best Time to Buy and Sell Stock III
 - 139.Word Break
 - 140.Work Break II
 - 174.Dungeon Game
+- 188.Best Time to Buy and Sell Stock IV
 - 198.House Robber
 - 213.Hourse Robber II
+- 309.Best Time to Buy and Sell Stock with Cooldown
 - 312.Burst Balloons
 - 322.Coin Change
 - 337.House Robber III
@@ -93,6 +98,7 @@ Trie
 - 583.Delete Operation for Two Strings
 - 651.4 Keys Keyboard
 - 712.Minimum ASCII Delete Sum for Two Strings
+- 714.Best Time to Buy and Sell Stock with Transaction Fee
 - 787.Cheapest Flights Within k Stops
 - 877.Stone Game
 - 887.Super Egg Drop
