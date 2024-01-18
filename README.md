@@ -111,6 +111,11 @@ Trie
 - 516.Longest Palindromic Subsequence
 - 1143.Longest Common Subsequence
 
+### 16. Greedy Algorithms
+#### [16.2 Elements of the greedy strategy](src/16.%20Greedy%20Algorithms/16.2%20Elements%20of%20the%20greedy%20strategy/)
+- 435.Non-overlapping Intervals
+- 452.Minimum Number of Arrows to Burst Balloons
+
 ## VI Graph Algorithms
 
 ### 22. Elementary Graph Algorithm
