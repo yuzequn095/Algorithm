@@ -1,8 +1,65 @@
 # Elements of the greedy strategy
 
 ## LeetCode Problems
+- 253.Meeting Rooms II
 - 435.Non-overlapping Intervals
 - 452.Minimum Number of Arrows to Burst Balloons
+
+### Meeting Rooms II
+
+Given an array of meeting time intervals intervals where intervals[i] = [starti, endi], return the minimum number of conference rooms required.
+
+ 
+
+Example 1:
+```
+Input: intervals = [[0,30],[5,10],[15,20]]
+Output: 2
+```
+
+Example 2:
+```
+Input: intervals = [[7,10],[2,4]]
+Output: 1
+``` 
+
+Constraints:
+
+- 1 <= intervals.length <= 10^4
+- 0 <= starti < endi <= 10^6
+
+#### Solution
+```
+class Solution {
+    int minMeetingRooms(int[][] meetings) {
+        int n = meetings.length;
+        int[] begin = new int[n];
+        int[] end = new int[n];
+        for(int i = 0; i < n; i++) {
+            begin[i] = meetings[i][0];
+            end[i] = meetings[i][1];
+        }
+        Arrays.sort(begin);
+        Arrays.sort(end);
+
+        int count = 0;
+
+        int res = 0, i = 0, j = 0;
+        while (i < n && j < n) {
+            if (begin[i] < end[j]) {
+                count++;
+                i++;
+            } else {
+                count--;
+                j++;
+            }
+            res = Math.max(res, count);
+        }
+
+        return res;
+    }
+}
+```
 
 ### 435. Non-overlapping Intervals
 Given an array of intervals intervals where intervals[i] = [starti, endi], return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.
