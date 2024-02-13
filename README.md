@@ -116,6 +116,7 @@ Trie
 - 253.Meeting Rooms II
 - 435.Non-overlapping Intervals
 - 452.Minimum Number of Arrows to Burst Balloons
+- 1024.Video Stitching
 
 ## VI Graph Algorithms
 
