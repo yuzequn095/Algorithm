@@ -113,6 +113,8 @@ Trie
 
 ### 16. Greedy Algorithms
 #### [16.2 Elements of the greedy strategy](src/16.%20Greedy%20Algorithms/16.2%20Elements%20of%20the%20greedy%20strategy/)
+- 45.Jump Game II
+- 55.Jump Game
 - 253.Meeting Rooms II
 - 435.Non-overlapping Intervals
 - 452.Minimum Number of Arrows to Burst Balloons
