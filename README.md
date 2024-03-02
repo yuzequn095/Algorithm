@@ -126,6 +126,9 @@ Trie
 #### [22.1 Representations of graphs](src/22.%20Elementary%20Graph%20Algorithms/22.1%20Representations%20of%20graphs)
 - 277.Find the Celebrity
 
+#### [22.3 Depth-first search](src/22.%20Elementary%20Graph%20Algorithms/22.3%20Depth-first%20search)
+- 46.Permutations
+
 ### 23. Minimum Spanning Trees
 #### [23.2 The algorithms of Kruskal and Prim](src/23.%20Minimum%20Spanning%20Trees/23.2%20The%20algorithms%20of%20Kruskal%20and%20Prim)
 - 261.Graph Valid Tree
