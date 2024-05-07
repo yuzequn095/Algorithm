@@ -23,6 +23,9 @@
 - 316.Remove Duplicate Letters
 - 1081.Smallest Subsequence of Distinct Characters
 
+#### [10.2 Linked lists](src/10.%20Elementary%20Data%20Structures/10.2%20Linked%20lists/)
+- 2816.Double a Number Represented as a Linked List
+
 ### 12. Binary Search Trees
 
 #### [12.1 What is a binary search tree](src/12.%20Binary%20Search%20Trees/12.1%20What%20is%20a%20binary%20search%20Tree)
