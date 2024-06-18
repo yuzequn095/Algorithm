@@ -1,0 +1,28 @@
+{
+    "id_to_tags": {
+        "826. Most Profit Assigning Work": [
+            "Array",
+            "Two Pointers",
+            "Binary Search",
+            "Greedy",
+            "Sorting"
+        ]
+    },
+    "tag_to_ids": {
+        "Array": [
+            "826. Most Profit Assigning Work"
+        ],
+        "Two Pointers": [
+            "826. Most Profit Assigning Work"
+        ],
+        "Binary Search": [
+            "826. Most Profit Assigning Work"
+        ],
+        "Greedy": [
+            "826. Most Profit Assigning Work"
+        ],
+        "Sorting": [
+            "826. Most Profit Assigning Work"
+        ]
+    }
+}
