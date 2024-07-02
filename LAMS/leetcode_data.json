@@ -6,23 +6,37 @@
             "Binary Search",
             "Greedy",
             "Sorting"
+        ],
+        "350. Intersection of Two Arrays II": [
+            "Array",
+            "Hash Table",
+            "Two Pointers",
+            "Binary Search",
+            "Sorting"
         ]
     },
     "tag_to_ids": {
         "Array": [
-            "826. Most Profit Assigning Work"
+            "826. Most Profit Assigning Work",
+            "350. Intersection of Two Arrays II"
         ],
         "Two Pointers": [
-            "826. Most Profit Assigning Work"
+            "826. Most Profit Assigning Work",
+            "350. Intersection of Two Arrays II"
         ],
         "Binary Search": [
-            "826. Most Profit Assigning Work"
+            "826. Most Profit Assigning Work",
+            "350. Intersection of Two Arrays II"
         ],
         "Greedy": [
             "826. Most Profit Assigning Work"
         ],
         "Sorting": [
-            "826. Most Profit Assigning Work"
+            "826. Most Profit Assigning Work",
+            "350. Intersection of Two Arrays II"
+        ],
+        "Hash Table": [
+            "350. Intersection of Two Arrays II"
         ]
     }
 }
