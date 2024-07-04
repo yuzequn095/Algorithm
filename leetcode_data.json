@@ -1,0 +1,16 @@
+{
+    "id_to_tags": {
+        "2181. Merge Nodes in Between Zeros": [
+            "Linked List",
+            "Simulation"
+        ]
+    },
+    "tag_to_ids": {
+        "Linked List": [
+            "2181. Merge Nodes in Between Zeros"
+        ],
+        "Simulation": [
+            "2181. Merge Nodes in Between Zeros"
+        ]
+    }
+}
