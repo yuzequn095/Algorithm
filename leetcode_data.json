@@ -3,6 +3,10 @@
         "2181. Merge Nodes in Between Zeros": [
             "Linked List",
             "Simulation"
+        ],
+        "2582. Pass the Pillow": [
+            "Math",
+            "Simulation"
         ]
     },
     "tag_to_ids": {
@@ -10,7 +14,11 @@
             "2181. Merge Nodes in Between Zeros"
         ],
         "Simulation": [
-            "2181. Merge Nodes in Between Zeros"
+            "2181. Merge Nodes in Between Zeros",
+            "2582. Pass the Pillow"
+        ],
+        "Math": [
+            "2582. Pass the Pillow"
         ]
     }
 }
